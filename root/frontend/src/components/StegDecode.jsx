@@ -4,7 +4,7 @@ import axios from "axios";
 function StegDecode(props) {
   const [file, setFile] = useState(null);
   const [fileInputError, setFileInputError] = useState(null);
-  const [stegoKey, setStegoKey] = useState(null);
+  const [stegoKey, setStegoKey] = useState("");
   const [stegoKeyError, setStegoKeyError] = useState(null);
   const [decodingStatus, setDecodingStatus] = useState(null);
   function handleFileChange(e) {
@@ -15,6 +15,9 @@ function StegDecode(props) {
       ) {
         setFile(null);
         setFileInputError("Unsupported file format.");
+      } else if (e.target.files[0].size > 1000000) {
+        setFile(null);
+        setFileInputError("File too big.");
       } else {
         setFileInputError(null);
         setFile(e.target.files[0]);
@@ -66,10 +69,10 @@ function StegDecode(props) {
   return (
     <div className="w-full h-full flex justify-center mx-auto">
       <form className="flex flex-col items-center p-1 sm:p-5 gap-5">
-        <div className="p-3 px-4 bg-gray-50 rounded-md w-full group hover:bg-gray-100 sm:px-7">
+        <div className="p-3 px-4 bg-gray-100 rounded-md w-full group sm:px-7">
           <label
-            className="block text-gray-400 text-sm font-bold mb-2 group-hover:text-gray-500"
-            for="stegoFile"
+            className="block text-gray-600 text-sm font-bold mb-2 group-hover:text-gray-800"
+            htmlFor="stegoFile"
           >
             Encoded image file ( .png )
           </label>
@@ -87,16 +90,17 @@ function StegDecode(props) {
             {fileInputError}
           </p>
         </div>
-        <div className="p-3 px-4 bg-gray-50 rounded-md w-full group hover:bg-gray-100 sm:px-7">
+        <div className="p-3 px-4 bg-gray-100 rounded-md w-full group sm:px-7">
           <label
-            className="block text-gray-400 text-sm font-bold mb-2 group-hover:text-gray-500"
-            for="stegoKey"
+            className="block text-gray-600 text-sm font-bold mb-2 group-hover:text-gray-800"
+            htmlFor="stegoKey"
           >
             Secret key
           </label>
           <input
-            type="text"
+            type="password"
             name="stegoKey"
+            value={stegoKey}
             onChange={handleStegoKeyChange}
             placeholder="Secret key..."
             className="w-full border border-gray-500 rounded-md p-2"
@@ -107,16 +111,11 @@ function StegDecode(props) {
         </div>
         <button
           type="button"
-          onClick={
-            decodingStatus
-              ? () => {
-                  alert("na na!");
-                }
-              : handleFormSubmit
-          }
-          className={`w-full bg-gray-500 p-3 rounded-md text-gray-50 ${
-            decodingStatus ? "cursor-not-allowed" : "hover:bg-gray-600"
+          onClick={handleFormSubmit}
+          className={`w-full bg-gray-600 p-3 rounded-md text-gray-50 font-bold ${
+            decodingStatus ? "cursor-not-allowed" : "hover:bg-gray-800"
           }`}
+          disabled={decodingStatus ? true : false}
         >
           {decodingStatus ? "Decoding..." : "Submit"}
         </button>

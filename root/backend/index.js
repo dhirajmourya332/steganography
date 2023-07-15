@@ -1,7 +1,13 @@
 const cluster = require("cluster");
 const os = require("os");
-
 const cpuNUms = os.cpus().length;
+
+const process = require("process");
+const path = require("path");
+const cors = require("cors");
+const express = require("express");
+const mime = require("mime");
+const multer = require("multer");
 
 if (cluster.isPrimary) {
   for (let i = 0; i < cpuNUms; i++) {
@@ -12,16 +18,6 @@ if (cluster.isPrimary) {
     cluster.fork();
   });
 } else {
-  const process = require("process");
-  const path = require("path");
-  const os = require("os");
-  const cors = require("cors");
-  const express = require("express");
-  const mime = require("mime");
-
-  const app = express();
-
-  const multer = require("multer");
   const storage = multer.diskStorage({
     destination: function (req, file, cb) {
       cb(null, os.tmpdir());
@@ -30,14 +26,14 @@ if (cluster.isPrimary) {
       cb(null, file.originalname);
     },
   });
-  const upload = multer({ storage: storage });
+  const upload = multer({ storage: storage, limits: { fileSize: 1000000 } });
 
+  const app = express();
   //server static files
   app.use(express.static("./public"));
   app.use(express.static(os.tmpdir()));
 
   //cors
-
   app.use(cors());
 
   //llsb steg
@@ -163,11 +159,13 @@ if (cluster.isPrimary) {
       }
     }
   );
-  app.get("/cronjob/", (req, res) => {
+  app.get("/healthz", (req, res) => {
     res.end(JSON.stringify({ success: true }));
   });
 
-  app.listen(process.env.PORT | 5000, () => {
-    console.log(new Date() + ": server listning at port 5000...");
+  app.listen(process.env.PORT || 5000, () => {
+    console.log(
+      new Date() + ": server listning at port " + (process.env.PORT || 5000)
+    );
   });
 }

@@ -47,7 +47,7 @@ function StegContainer(props) {
               formActionPath={props.encodeUri}
             />
             {encodingError && (
-              <div className="p-3 bg-gray-50 rounded-md">
+              <div className="p-3 bg-red-50 rounded-md">
                 <p className="pl-3 text-red-600">{encodingError}</p>
               </div>
             )}
@@ -87,16 +87,16 @@ function StegContainer(props) {
               onDecodeError={onDecodeError}
             />
             {decodingError && (
-              <div className="p-3 bg-gray-50 rounded-md">
+              <div className="p-3 bg-red-50 rounded-md">
                 <p className="pl-3 text-red-600">{decodingError}</p>
               </div>
             )}
             {decodedMessage && (
-              <div className="p-3 bg-gray-50 rounded-md">
-                <p className="text-gray-700 text-sm pb-2">
+              <div className="p-3 bg-teal-50 rounded-md">
+                <p className="text-teal-700 text-sm pb-2">
                   {"Decoded message:"}
                 </p>
-                <p className="pl-3">{decodedMessage}</p>
+                <p className="pl-3 font-bold text-teal-800">{decodedMessage}</p>
               </div>
             )}
           </div>

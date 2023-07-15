@@ -4,9 +4,9 @@ import axios from "axios";
 function StegEncode(props) {
   const [file, setFile] = useState(null);
   const [fileInputError, setFileInputError] = useState(null);
-  const [message, setMessage] = useState(null);
+  const [message, setMessage] = useState("");
   const [messageError, setMessageError] = useState(null);
-  const [stegoKey, setStegoKey] = useState(null);
+  const [stegoKey, setStegoKey] = useState("");
   const [stegoKeyError, setStegoKeyError] = useState(null);
   const [encodingStatus, setEncodingSttus] = useState(false);
 
@@ -18,6 +18,9 @@ function StegEncode(props) {
       ) {
         setFile(null);
         setFileInputError("Unsupported file format.");
+      } else if (e.target.files[0].size > 1000000) {
+        setFile(null);
+        setFileInputError("File too big.");
       } else {
         setFileInputError(null);
         setFile(e.target.files[0]);
@@ -83,10 +86,10 @@ function StegEncode(props) {
   return (
     <div className="w-full h-full flex justify-center mx-auto">
       <form className="flex flex-col items-center p-1 sm:p-5 gap-5">
-        <div className="p-3 px-3 bg-gray-50 rounded-md w-full group hover:bg-gray-100">
+        <div className="p-3 px-3 bg-gray-100 rounded-md w-full group">
           <label
-            className="block text-gray-400 text-sm font-bold mb-2 group-hover:text-gray-500"
-            for="coverFile"
+            className="block text-gray-600 text-sm font-bold mb-2 group-hover:text-gray-800"
+            htmlFor="coverFile"
           >
             Cover image file ( .jpg, .jpeg, .png )
           </label>
@@ -104,10 +107,10 @@ function StegEncode(props) {
             {fileInputError}
           </p>
         </div>
-        <div className="p-3 px-4 bg-gray-50 rounded-md w-full group hover:bg-gray-100">
+        <div className="p-3 px-4 bg-gray-100 rounded-md w-full group">
           <label
-            className="block text-gray-400 text-sm font-bold mb-2 group-hover:text-gray-500"
-            for="message"
+            className="block text-gray-600 text-sm font-bold mb-2 group-hover:text-gray-800"
+            htmlFor="message"
           >
             Message
           </label>
@@ -123,15 +126,15 @@ function StegEncode(props) {
             {messageError}
           </p>
         </div>
-        <div className="p-3 px-4 bg-gray-50 rounded-md w-full group hover:bg-gray-100">
+        <div className="p-3 px-4 bg-gray-100 rounded-md w-full group">
           <label
-            className="block text-gray-400 text-sm font-bold mb-2 group-hover:text-gray-500"
-            for="stegoKey"
+            className="block text-gray-600 text-sm font-bold mb-2 group-hover:text-gray-800"
+            htmlFor="stegoKey"
           >
             Secret key
           </label>
           <input
-            type="text"
+            type="password"
             name="stegoKey"
             value={stegoKey}
             onChange={handleStegoKeyChange}
@@ -144,16 +147,11 @@ function StegEncode(props) {
         </div>
         <button
           type="button"
-          className={`w-full bg-gray-500 p-3 rounded-md text-gray-50 ${
-            encodingStatus ? "cursor-not-allowed" : "hover:bg-gray-600"
+          className={`w-full bg-gray-600 p-3 rounded-md text-gray-50 font-bold ${
+            encodingStatus ? "cursor-not-allowed" : "hover:bg-gray-800"
           }`}
-          onClick={
-            encodingStatus
-              ? () => {
-                  alert("hello");
-                }
-              : handleFormSubmit
-          }
+          disabled={encodingStatus ? true : false}
+          onClick={handleFormSubmit}
         >
           {encodingStatus ? "Encoding..." : "Submit"}
         </button>
