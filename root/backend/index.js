@@ -74,8 +74,8 @@ if (cluster.isPrimary) {
           res.end(
             JSON.stringify({
               success: true,
-              coverFilePath: `/${req.file.originalname}`,
-              stegoFilePath: `/${path.basename(
+              coverFilePath: `https://stego-back.onrender.com/${req.file.originalname}`,
+              stegoFilePath: `https://stego-back.onrender.com/${path.basename(
                 req.file.originalname,
                 path.extname(req.file.originalname)
               )}.png`,
@@ -127,8 +127,8 @@ if (cluster.isPrimary) {
           res.end(
             JSON.stringify({
               success: true,
-              coverFilePath: `/${req.file.originalname}`,
-              stegoFilePath: `/${path.basename(
+              coverFilePath: `https://stego-back.onrender.com/${req.file.originalname}`,
+              stegoFilePath: `https://stego-back.onrender.com/${path.basename(
                 req.file.originalname,
                 path.extname(req.file.originalname)
               )}.png`,
