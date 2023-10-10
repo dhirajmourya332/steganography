@@ -26,13 +26,13 @@ if (cluster.isPrimary) {
       cb(null, file.originalname);
     },
   });
-  const upload = multer({ storage: storage, limits: { fileSize: 1000000 } });
+  const upload = multer({ storage: storage, limits: { fileSize: 10000000 } });
 
   const app = express();
-  //server static files
-  app.use(express.static("./public"));
-  app.use(express.static(os.tmpdir()));
 
+  const imageFilesRouter = express.Router();
+  imageFilesRouter.use(express.static(os.tmpdir()));
+  app.use("/api", imageFilesRouter);
   //cors
   app.use(cors());
 
@@ -74,8 +74,8 @@ if (cluster.isPrimary) {
           res.end(
             JSON.stringify({
               success: true,
-              coverFilePath: `https://stego-back.onrender.com/${req.file.originalname}`,
-              stegoFilePath: `https://stego-back.onrender.com/${path.basename(
+              coverFilePath: `/api/${req.file.originalname}`,
+              stegoFilePath: `/api/${path.basename(
                 req.file.originalname,
                 path.extname(req.file.originalname)
               )}.png`,
@@ -127,8 +127,8 @@ if (cluster.isPrimary) {
           res.end(
             JSON.stringify({
               success: true,
-              coverFilePath: `https://stego-back.onrender.com/${req.file.originalname}`,
-              stegoFilePath: `https://stego-back.onrender.com/${path.basename(
+              coverFilePath: `/api/${req.file.originalname}`,
+              stegoFilePath: `/api/${path.basename(
                 req.file.originalname,
                 path.extname(req.file.originalname)
               )}.png`,
@@ -159,6 +159,13 @@ if (cluster.isPrimary) {
       }
     }
   );
+
+  //serving static files
+  app.use(express.static("./public"));
+  app.get("*", (req, res) => {
+    res.sendFile(resolve("public", "index.html"));
+  });
+
   app.get("/healthz", (req, res) => {
     res.end(JSON.stringify({ success: true }));
   });

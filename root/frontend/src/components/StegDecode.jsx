@@ -15,7 +15,7 @@ function StegDecode(props) {
       ) {
         setFile(null);
         setFileInputError("Unsupported file format.");
-      } else if (e.target.files[0].size > 1000000) {
+      } else if (e.target.files[0].size > 10000000) {
         setFile(null);
         setFileInputError("File too big.");
       } else {

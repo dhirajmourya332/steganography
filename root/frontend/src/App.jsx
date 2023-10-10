@@ -7,13 +7,13 @@ function App() {
       <Header />
       <StegContainer
         stegTechnique={"Linear LSB"}
-        encodeUri={"https://stego-back.onrender.com/api/steg/llsb/encode"}
-        decodeUri={"https://stego-back.onrender.com/api/steg/llsb/decode"}
+        encodeUri={"/api/steg/llsb/encode"}
+        decodeUri={"/api/steg/llsb/decode"}
       />
       <StegContainer
         stegTechnique={"Random LSB"}
-        encodeUri={"https://stego-back.onrender.com/api/steg/rlsb/encode"}
-        decodeUri={"https://stego-back.onrender.com/api/steg/rlsb/decode"}
+        encodeUri={"/api/steg/rlsb/encode"}
+        decodeUri={"/api/steg/rlsb/decode"}
       />
     </div>
   );
