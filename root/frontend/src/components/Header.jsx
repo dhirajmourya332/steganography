@@ -7,7 +7,7 @@ function Header() {
 
       <div className="ml-auto flex items-end p-2">
         <a
-          href="https://github.com/dhirajmourya332/steganography"
+          href="https://github.com/mes4236/Steganography"
           target="_blank"
           rel="noopner noreferrer"
           className="px-3 py-1 border border-slate-200 text-slate-200 rounded-md hover:bg-slate-200 hover:text-black"
